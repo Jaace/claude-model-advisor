@@ -1,0 +1,16 @@
+{
+  "description": "Injects model selection guidance at the start of each session.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${CLAUDE_PLUGIN_ROOT}/hooks-handlers/session-start.sh",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}
