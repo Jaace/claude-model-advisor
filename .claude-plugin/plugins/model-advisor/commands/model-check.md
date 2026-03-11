@@ -10,10 +10,6 @@ Reassess the current session and recommend the right model and effort level.
    - `sonnet` — most tasks; pair with `low`, `medium`, or `high`
    - `opus` — complex reasoning/architecture; pair with `low`, `medium`, or `high`
 4. Give a one-line rationale.
-5. If a switch is warranted, print the exact commands to run. Omit `/effort` if recommending Haiku:
-   ```
-   /model <haiku|sonnet|opus>
-   /effort <low|medium|high>
-   ```
+5. If a switch is warranted, tell the user to run `/model` to switch. Remind them that inside `/model` they can use up/down keys to select the model and left/right keys to set the effort level (not applicable for Haiku).
 
 No tools needed — pure reasoning and output only.

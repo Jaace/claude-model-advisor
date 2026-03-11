@@ -41,13 +41,9 @@ Or add this repo as a marketplace source:
 
 ## Switching models
 
-After receiving a recommendation, use the built-in Claude Code commands to switch:
+After receiving a recommendation, run `/model` to switch. The `/model` interface lets you:
 
-```
-/model haiku
-/model sonnet
-/model opus
-/effort low
-/effort medium
-/effort high
-```
+- **Up/down keys** — select the model
+- **Left/right keys** — set the effort level (low/medium/high)
+
+Note: effort level does not apply to Haiku.
