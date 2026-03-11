@@ -13,9 +13,9 @@ Reassess the current session and recommend the right model and effort level.
    - `opus` — novel architecture, hard math, genuinely ambiguous or open-ended design problems
 
    **Effort** (how much reasoning is needed? — not applicable for Haiku):
-   - `low` — answer is fairly direct, minimal reasoning required
-   - `medium` — some reasoning or multi-step thinking required
-   - `high` — extended reasoning needed: hard logic, complex tradeoffs, deep analysis
+   - `low` — the shape of the answer is already known; you are retrieving or explaining established knowledge, even if the topic is complex
+   - `medium` — some reasoning or multi-step thinking required; the answer isn't immediately obvious but the path is clear
+   - `high` — genuinely hard reasoning required; the problem is ambiguous, involves hard tradeoffs with no clear answer, requires novel synthesis, or has many interdependent constraints
 
 4. Give a one-line rationale.
 5. If a switch is warranted, tell the user to run `/model` to switch. Remind them that inside `/model` they can use up/down keys to select the model and left/right keys to set the effort level (not applicable for Haiku).
