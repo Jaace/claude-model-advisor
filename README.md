@@ -47,3 +47,12 @@ After receiving a recommendation, run `/model` to switch. The `/model` interface
 - **Left/right keys** — set the effort level (low/medium/high)
 
 Note: effort level does not apply to Haiku.
+
+## Updating
+
+After installing, updates require refreshing the marketplace cache first:
+
+```
+/plugin marketplace update claude-model-advisor
+/plugin update model-advisor
+```
