@@ -9,7 +9,7 @@
     {
       "name": "model-advisor",
       "description": "Recommends the right Claude model (Haiku/Sonnet/Opus) and effort level at session start by analyzing your first message, then pauses so you can switch before work begins.",
-      "source": ".",
+      "source": "./.claude-plugin/plugins/model-advisor",
       "category": "productivity"
     }
   ]
