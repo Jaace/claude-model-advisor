@@ -1,6 +1,6 @@
 {
   "name": "model-advisor",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Recommends the right Claude model (Haiku/Sonnet/Opus) and effort level at session start by analyzing your first message, then pauses so you can switch before work begins.",
   "author": {
     "name": "Jason Boyle",
