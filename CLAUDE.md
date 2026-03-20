@@ -33,10 +33,12 @@ The core content this plugin delivers (defined in `session-start.sh` and `model-
 - `sonnet`: coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment
 - `opus`: novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems
 
-**Effort** — how much reasoning is needed? (not applicable to Haiku)
+**Effort** — how much reasoning is needed? (not applicable to Haiku; max is Opus only)
+- `auto`: Claude decides based on the task (default)
 - `low`: established knowledge retrieval/explanation; shape of answer is known
 - `medium`: some reasoning required; path is clear
 - `high`: ambiguous problems, hard tradeoffs, novel synthesis, many interdependent constraints
+- `max` (Opus 4.6 only): maximum thinking budget; for the hardest problems where cost is no concern
 
 ## Making changes
 
