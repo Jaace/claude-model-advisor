@@ -46,6 +46,8 @@ After receiving a recommendation, run `/model` to switch. The `/model` interface
 - **Up/down keys** — select the model
 - **Left/right keys** — set the effort level (low/medium/high)
 
+You can also run `/effort` to adjust the effort level independently without changing the model. Options: `auto`, `low`, `medium`, `high`, and `max` (Opus only).
+
 Note: effort level does not apply to Haiku.
 
 ## Updating
