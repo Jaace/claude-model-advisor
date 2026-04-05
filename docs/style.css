@@ -511,6 +511,9 @@ footer {
 
 .footer-links a:hover { color: var(--text); }
 
+.footer-site-link { display: inline-flex; align-items: center; gap: 5px; }
+.footer-site-link svg { vertical-align: middle; flex-shrink: 0; }
+
 /* ── Light Mode ── */
 
 [data-theme="light"] {
