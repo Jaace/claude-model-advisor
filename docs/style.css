@@ -235,6 +235,50 @@ nav {
 .t-accent { color: #f59e0b; font-weight: 600; }
 .t-label  { color: #777; }
 
+/* ── Terminal animation ── */
+
+#terminal-demo {
+  min-height: 220px;
+  transition: opacity 0.3s;
+}
+
+.typing-cursor {
+  animation: cursor-blink 0.7s step-end infinite;
+}
+
+@keyframes cursor-blink {
+  50% { opacity: 0; }
+}
+
+.sparkle-active {
+  color: #f59e0b;
+}
+
+.sparkle-done {
+  color: #f59e0b;
+  opacity: 0.5;
+}
+
+.terminal-replay {
+  display: none;
+  margin: 12px auto 0;
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 5px 14px;
+  cursor: pointer;
+  color: var(--text-dim);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.terminal-replay:hover {
+  color: var(--text);
+  border-color: var(--accent-border);
+}
+
 /* ── Sections ── */
 
 section {
@@ -553,6 +597,8 @@ footer {
 [data-theme="light"] .t-muted  { color: #777; }
 [data-theme="light"] .t-accent { color: #d97706; }
 [data-theme="light"] .t-label  { color: #666; }
+[data-theme="light"] .sparkle-active { color: #d97706; }
+[data-theme="light"] .sparkle-done { color: #d97706; }
 
 /* ── Responsive ── */
 
