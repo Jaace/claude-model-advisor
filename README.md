@@ -1,4 +1,4 @@
-# Claude Model Advisor
+# [Claude Model Advisor](https://jaace.github.io/claude-model-advisor/)
 
 A Claude Code plugin that recommends the right model and effort level at the start of every session - before any work begins.
 
