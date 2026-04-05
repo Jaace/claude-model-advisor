@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,12 +24,23 @@
 
   <nav>
     <span class="nav-brand"><span>~</span>/model-advisor</span>
+    <div class="nav-right">
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle light/dark mode" title="Toggle theme">
+      <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" style="display:none">
+        <circle cx="8" cy="8" r="3"/>
+        <path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.05 3.05l1.41 1.41M11.54 11.54l1.41 1.41M3.05 12.95l1.41-1.41M11.54 4.46l1.41-1.41"/>
+      </svg>
+      <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M13.5 8.5a5.5 5.5 0 01-7-7 5.5 5.5 0 107 7z"/>
+      </svg>
+    </button>
     <a href="https://github.com/Jaace/claude-model-advisor" class="nav-github">
       <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
         <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
       </svg>
       GitHub
     </a>
+    </div>
   </nav>
 
   <!-- Hero -->
@@ -101,28 +112,28 @@
           <td><span class="t-dim">—</span></td>
           <td>Simple lookups, quick edits, boilerplate, single-fact questions</td>
         </tr>
-        <tr>
+        <tr data-model="sonnet">
           <td><span class="model-name">Sonnet</span></td>
           <td>
             <div class="effort-tags">
-              <span class="tag">low</span>
-              <span class="tag accent">medium</span>
-              <span class="tag">high</span>
+              <button class="tag" data-effort="low">low</button>
+              <button class="tag accent" data-effort="medium">medium</button>
+              <button class="tag" data-effort="high">high</button>
             </div>
           </td>
-          <td>Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment</td>
+          <td><span class="best-for-text">Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment</span></td>
         </tr>
-        <tr>
+        <tr data-model="opus">
           <td><span class="model-name">Opus</span></td>
           <td>
             <div class="effort-tags">
-              <span class="tag">low</span>
-              <span class="tag">medium</span>
-              <span class="tag">high</span>
-              <span class="tag accent">max</span>
+              <button class="tag" data-effort="low">low</button>
+              <button class="tag" data-effort="medium">medium</button>
+              <button class="tag" data-effort="high">high</button>
+              <button class="tag accent" data-effort="max">max</button>
             </div>
           </td>
-          <td>Novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems</td>
+          <td><span class="best-for-text">Novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems</span></td>
         </tr>
       </tbody>
     </table>
@@ -170,6 +181,7 @@
   </footer>
 
   <script>
+    // ── Copy buttons ──
     function setupCopyBtn(btn, getText) {
       btn.addEventListener('click', () => {
         navigator.clipboard.writeText(getText()).then(() => {
@@ -186,16 +198,70 @@
         });
       });
     }
-
-    // Hero CTA
     setupCopyBtn(document.getElementById('copy-btn'), () =>
       '/plugin install model-advisor@Jaace-claude-model-advisor'
     );
-
-    // Install section code blocks
     document.querySelectorAll('.code-copy-btn').forEach(btn => {
       setupCopyBtn(btn, () => btn.dataset.copy);
     });
+
+    // ── Interactive effort tags ──
+    const effortData = {
+      sonnet: {
+        default: 'Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment',
+        low: 'Straightforward renames, simple explanations, applying well-known patterns \u2014 the answer shape is already clear',
+        medium: 'Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment',
+        high: 'Complex debugging with unclear root causes, deep refactoring with hard tradeoffs, tangled multi-step problems'
+      },
+      opus: {
+        default: 'Novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems',
+        low: 'Explaining established architectural patterns or comparing well-known design tradeoffs \u2014 needs depth but the answer exists',
+        medium: 'Designing systems with real constraints, planning migrations, architectural decisions where the problem is well-defined',
+        high: 'Novel multi-system architecture, hard math, genuinely ambiguous design problems with many interdependent constraints',
+        max: 'All of the above, but with maximum thinking budget \u2014 for problems where exhaustive reasoning is warranted and cost is no concern'
+      }
+    };
+
+    document.querySelectorAll('tr[data-model]').forEach(row => {
+      const model = row.dataset.model;
+      const textEl = row.querySelector('.best-for-text');
+      row.querySelectorAll('.tag').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.classList.contains('accent')) return;
+          const effort = btn.dataset.effort;
+          row.querySelectorAll('.tag').forEach(t => t.classList.remove('accent'));
+          btn.classList.add('accent');
+          textEl.textContent = effortData[model][effort];
+        });
+      });
+    });
+
+    // ── Theme toggle ──
+    (function() {
+      const root = document.documentElement;
+      const toggle = document.getElementById('theme-toggle');
+      const sunIcon = toggle.querySelector('.icon-sun');
+      const moonIcon = toggle.querySelector('.icon-moon');
+
+      function applyTheme(theme) {
+        root.dataset.theme = theme;
+        sunIcon.style.display = theme === 'dark' ? 'none' : 'block';
+        moonIcon.style.display = theme === 'dark' ? 'block' : 'none';
+      }
+
+      const saved = localStorage.getItem('theme');
+      if (saved) {
+        applyTheme(saved);
+      } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+        applyTheme('light');
+      }
+
+      toggle.addEventListener('click', () => {
+        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
+        applyTheme(next);
+        localStorage.setItem('theme', next);
+      });
+    })();
   </script>
 
 </body>
