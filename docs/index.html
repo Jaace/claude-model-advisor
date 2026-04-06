@@ -18,7 +18,7 @@
   <meta name="twitter:description" content="Pick the right model before you burn a single token. A Claude Code plugin that recommends the right model and effort level at session start.">
 
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90' fill='%23f59e0b'>~</text></svg>">
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://jaace.github.io/theme/style.css">
 </head>
 <body>
 
@@ -80,10 +80,10 @@
   <section>
     <h2>How it works</h2>
     <ol class="steps">
-      <li><span class="step-num">1</span> Reads your first message</li>
-      <li><span class="step-num">2</span> Assesses task complexity and the type of reasoning required</li>
-      <li><span class="step-num">3</span> Recommends a specific model and effort level with a one-line rationale</li>
-      <li><span class="step-num">4</span> Pauses — so you can switch models before any tokens are spent</li>
+      <li>Reads your first message</li>
+      <li>Assesses task complexity and the type of reasoning required</li>
+      <li>Recommends a specific model and effort level with a one-line rationale</li>
+      <li>Pauses — so you can switch models before any tokens are spent</li>
     </ol>
   </section>
 
@@ -104,25 +104,25 @@
           <td><span class="t-dim">—</span></td>
           <td>Simple lookups, quick edits, boilerplate, single-fact questions</td>
         </tr>
-        <tr data-model="sonnet">
+        <tr>
           <td><span class="model-name">Sonnet</span></td>
           <td>
             <div class="effort-tags">
-              <button class="tag" data-effort="low">low</button>
-              <button class="tag accent" data-effort="medium">medium</button>
-              <button class="tag" data-effort="high">high</button>
+              <button class="tag" data-effort-text="Straightforward renames, simple explanations, applying well-known patterns — the answer shape is already clear">low</button>
+              <button class="tag accent" data-effort-text="Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment">medium</button>
+              <button class="tag" data-effort-text="Complex debugging with unclear root causes, deep refactoring with hard tradeoffs, tangled multi-step problems">high</button>
             </div>
           </td>
           <td><span class="best-for-text">Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment</span></td>
         </tr>
-        <tr data-model="opus">
+        <tr>
           <td><span class="model-name">Opus</span></td>
           <td>
             <div class="effort-tags">
-              <button class="tag" data-effort="low">low</button>
-              <button class="tag" data-effort="medium">medium</button>
-              <button class="tag" data-effort="high">high</button>
-              <button class="tag accent" data-effort="max">max</button>
+              <button class="tag" data-effort-text="Explaining established architectural patterns or comparing well-known design tradeoffs — needs depth but the answer exists">low</button>
+              <button class="tag" data-effort-text="Designing systems with real constraints, planning migrations, architectural decisions where the problem is well-defined">medium</button>
+              <button class="tag" data-effort-text="Novel multi-system architecture, hard math, genuinely ambiguous design problems with many interdependent constraints">high</button>
+              <button class="tag accent" data-effort-text="Novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems">max</button>
             </div>
           </td>
           <td><span class="best-for-text">Novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems</span></td>
@@ -172,238 +172,42 @@
     </div>
   </footer>
 
+  <script src="https://jaace.github.io/theme/theme.js"></script>
+  <script src="https://jaace.github.io/theme/terminal.js"></script>
   <script>
-    // ── Copy buttons ──
-    function setupCopyBtn(btn, getText) {
-      btn.addEventListener('click', () => {
-        navigator.clipboard.writeText(getText()).then(() => {
-          const copyIcon = btn.querySelector('.icon-copy');
-          const checkIcon = btn.querySelector('.icon-check');
-          copyIcon.style.display = 'none';
-          checkIcon.style.display = 'block';
-          btn.classList.add('copied');
-          setTimeout(() => {
-            copyIcon.style.display = 'block';
-            checkIcon.style.display = 'none';
-            btn.classList.remove('copied');
-          }, 2000);
-        });
-      });
-    }
-    setupCopyBtn(document.getElementById('copy-btn'), () =>
-      '/plugin install model-advisor@Jaace-claude-model-advisor'
-    );
-    document.querySelectorAll('.code-copy-btn').forEach(btn => {
-      setupCopyBtn(btn, () => btn.dataset.copy);
+    TerminalDemo.run({
+      demo: '#terminal-demo',
+      replay: '#terminal-replay',
+      examples: [
+        {
+          prompt: "what's the default port for postgres?",
+          verb: 'Discombobulating',
+          sec: 3,
+          label: 'Recommended: ',
+          result: 'Haiku',
+          note: 'simple factual lookup, no reasoning needed.',
+          footer: 'Run /model to switch before we start, or should I proceed?'
+        },
+        {
+          prompt: 'refactor the auth module to use JWT instead of sessions',
+          verb: 'Transmuting',
+          sec: 4,
+          label: 'Recommended: ',
+          result: 'Sonnet / medium',
+          note: 'focused refactor with a clear path; swapping session auth for JWT across the module.',
+          footer: 'Run /model to switch before we start, or should I proceed?'
+        },
+        {
+          prompt: 'design a real-time collaborative editing system with conflict resolution',
+          verb: 'Philosophising',
+          sec: 5,
+          label: 'Recommended: ',
+          result: 'Opus / high',
+          note: 'multi-system architecture with open-ended design, likely involving hard tradeoffs across data consistency, conflict resolution strategies, and real-time sync.',
+          footer: 'Run /model to switch before we start, or should I proceed?'
+        }
+      ]
     });
-
-    // ── Interactive effort tags ──
-    const effortData = {
-      sonnet: {
-        default: 'Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment',
-        low: 'Straightforward renames, simple explanations, applying well-known patterns \u2014 the answer shape is already clear',
-        medium: 'Coding, debugging, refactoring, explanations, any question with tradeoffs or nuanced judgment',
-        high: 'Complex debugging with unclear root causes, deep refactoring with hard tradeoffs, tangled multi-step problems'
-      },
-      opus: {
-        default: 'Novel multi-system architecture, hard math, genuinely ambiguous open-ended design problems',
-        low: 'Explaining established architectural patterns or comparing well-known design tradeoffs \u2014 needs depth but the answer exists',
-        medium: 'Designing systems with real constraints, planning migrations, architectural decisions where the problem is well-defined',
-        high: 'Novel multi-system architecture, hard math, genuinely ambiguous design problems with many interdependent constraints',
-        max: 'All of the above, but with maximum thinking budget \u2014 for problems where exhaustive reasoning is warranted and cost is no concern'
-      }
-    };
-
-    document.querySelectorAll('tr[data-model]').forEach(row => {
-      const model = row.dataset.model;
-      const textEl = row.querySelector('.best-for-text');
-      row.querySelectorAll('.tag').forEach(btn => {
-        btn.addEventListener('click', () => {
-          if (btn.classList.contains('accent')) return;
-          const effort = btn.dataset.effort;
-          row.querySelectorAll('.tag').forEach(t => t.classList.remove('accent'));
-          btn.classList.add('accent');
-          textEl.textContent = effortData[model][effort];
-        });
-      });
-    });
-
-    // ── Terminal animation ──
-    (function() {
-      const demo = document.getElementById('terminal-demo');
-      const replayBtn = document.getElementById('terminal-replay');
-      const terminalEl = demo.closest('.terminal');
-
-      const examples = [
-        { prompt: "what's the default port for postgres?", verb: 'Discombobulating', sec: 3, model: 'Haiku', effort: null, rationale: 'simple factual lookup, no reasoning needed.' },
-        { prompt: 'refactor the auth module to use JWT instead of sessions', verb: 'Transmuting', sec: 4, model: 'Sonnet', effort: 'medium', rationale: 'focused refactor with a clear path; swapping session auth for JWT across the module.' },
-        { prompt: 'design a real-time collaborative editing system with conflict resolution', verb: 'Philosophising', sec: 5, model: 'Opus', effort: 'high', rationale: 'multi-system architecture with open-ended design, likely involving hard tradeoffs across data consistency, conflict resolution strategies, and real-time sync.' }
-      ];
-
-      const sparkleSeq = [
-        ['\u00b7', 160], ['\u273b', 120], ['\u273d', 120], ['\u2736', 120], ['\u2733', 120],
-        ['\u2722', 160], ['\u2733', 120], ['\u2736', 120], ['\u273d', 120], ['\u273b', 120]
-      ];
-
-      let paused = false, running = false;
-
-      const sleep = ms => new Promise(r => setTimeout(r, ms));
-
-      const pausable = ms => new Promise(resolve => {
-        let rem = ms, last = Date.now();
-        const tick = () => {
-          const now = Date.now();
-          if (!paused) rem -= now - last;
-          last = now;
-          rem <= 0 ? resolve() : setTimeout(tick, 50);
-        };
-        setTimeout(tick, 50);
-      });
-
-      const gate = () => new Promise(resolve => {
-        const check = () => paused ? setTimeout(check, 100) : resolve();
-        check();
-      });
-
-      async function typeInto(el, text, speed) {
-        for (const ch of text) {
-          await gate();
-          el.textContent += ch;
-          await sleep(speed);
-        }
-      }
-
-      const mkSpan = (parent, cls, text) => {
-        const s = document.createElement('span');
-        if (cls) s.className = cls;
-        if (text) s.textContent = text;
-        parent.appendChild(s);
-        return s;
-      };
-
-      const addLine = cls => {
-        const d = document.createElement('div');
-        d.className = 't-line' + (cls ? ' ' + cls : '');
-        demo.appendChild(d);
-        return d;
-      };
-
-      const addSpacer = () => {
-        const d = document.createElement('div');
-        d.className = 't-spacer';
-        demo.appendChild(d);
-      };
-
-      async function runExample(ex) {
-        const promptLine = addLine();
-        mkSpan(promptLine, 't-accent', '> ');
-        const pt = mkSpan(promptLine, 't-text');
-        const cursor = mkSpan(promptLine, 'typing-cursor', '\u2588');
-
-        await pausable(500);
-        await typeInto(pt, ex.prompt, 40);
-        cursor.remove();
-        await pausable(600);
-
-        addSpacer();
-        const thinkLine = addLine();
-        const sparkle = mkSpan(thinkLine, 'sparkle-active');
-        mkSpan(thinkLine, 't-muted', ex.verb + '\u2026');
-        const ts = mkSpan(thinkLine, 't-dim');
-
-        let sparkleActive = true, sFrame = 0;
-        const tickSparkle = () => {
-          if (!sparkleActive) return;
-          if (paused) { setTimeout(tickSparkle, 50); return; }
-          const [ch, ms] = sparkleSeq[sFrame % sparkleSeq.length];
-          sparkle.textContent = ch + ' ';
-          sFrame++;
-          setTimeout(tickSparkle, ms);
-        };
-        tickSparkle();
-
-        for (let s = 1; s <= ex.sec; s++) {
-          await pausable(1000);
-          ts.textContent = s < ex.sec ? ` (${s}s)` : ` (thought for ${s}s)`;
-          if (s === ex.sec) {
-            sparkleActive = false;
-            sparkle.textContent = '\u273b ';
-            sparkle.className = 'sparkle-done';
-          }
-        }
-
-        await pausable(400);
-        addSpacer();
-
-        const recLine = addLine();
-        const bullet = mkSpan(recLine, 't-accent');
-        const rl = mkSpan(recLine, 't-label');
-        const rv = mkSpan(recLine, 't-accent');
-        const rat = mkSpan(recLine, 't-dim');
-        await typeInto(bullet, '\u23fa ', 20);
-        await typeInto(rl, 'Recommended: ', 20);
-        await typeInto(rv, ex.effort ? `${ex.model} / ${ex.effort}` : ex.model, 20);
-        await typeInto(rat, ` \u2014 ${ex.rationale}`, 20);
-
-        addSpacer();
-        const cmdLine = addLine('t-muted');
-        await typeInto(mkSpan(cmdLine), '  Run /model to switch before we start, or should I proceed?', 20);
-      }
-
-      async function runAll() {
-        running = true;
-        replayBtn.style.display = 'none';
-
-        for (let i = 0; i < examples.length; i++) {
-          demo.innerHTML = '';
-          demo.style.opacity = '1';
-          await runExample(examples[i]);
-          if (i < examples.length - 1) {
-            await pausable(4000);
-            demo.style.opacity = '0';
-            await pausable(300);
-          }
-        }
-
-        await pausable(2000);
-        replayBtn.style.display = 'block';
-        running = false;
-      }
-
-      new IntersectionObserver(entries => {
-        paused = !entries[0].isIntersecting;
-      }, { threshold: 0.3 }).observe(terminalEl);
-
-      replayBtn.addEventListener('click', () => { if (!running) runAll(); });
-      runAll();
-    })();
-
-    // ── Theme toggle ──
-    (function() {
-      const root = document.documentElement;
-      const toggle = document.getElementById('theme-toggle');
-      const sunIcon = toggle.querySelector('.icon-sun');
-      const moonIcon = toggle.querySelector('.icon-moon');
-
-      function applyTheme(theme) {
-        root.dataset.theme = theme;
-        sunIcon.style.display = theme === 'dark' ? 'none' : 'block';
-        moonIcon.style.display = theme === 'dark' ? 'block' : 'none';
-      }
-
-      const saved = localStorage.getItem('theme');
-      if (saved) {
-        applyTheme(saved);
-      } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-        applyTheme('light');
-      }
-
-      toggle.addEventListener('click', () => {
-        const next = root.dataset.theme === 'dark' ? 'light' : 'dark';
-        applyTheme(next);
-        localStorage.setItem('theme', next);
-      });
-    })();
   </script>
 
 </body>
