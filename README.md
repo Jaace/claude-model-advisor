@@ -30,13 +30,8 @@ Run this anytime mid-session to reassess the current task and get an updated mod
 ## Installation
 
 ```
-/plugin install model-advisor@Jaace-claude-model-advisor
-```
-
-Or add this repo as a marketplace source:
-
-```
 /plugin marketplace add Jaace/claude-model-advisor
+/plugin install model-advisor@claude-model-advisor
 ```
 
 ## Switching models
