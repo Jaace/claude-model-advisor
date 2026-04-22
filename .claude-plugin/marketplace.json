@@ -1,7 +1,8 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "claude-model-advisor",
-  "description": "Recommends the right Claude model and effort level at session start",
+  "metadata": {
+    "description": "Recommends the right Claude model and effort level at session start"
+  },
   "owner": {
     "name": "Jason Boyle"
   },
